@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Palette</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="input-container">
+            <input type="text" id="commandInput" placeholder="Enter command...">
+            <button onclick="executeCommand()">Execute</button>
+        </div>
+        <div class="total-bet-container">
+            <p><label id="betAmountLabel">Total Bet Amount:</label> <span id="totalBetAmount">0</span></p>
+        </div>
+        <div class="input-container">
+            <input type="number" id="betAmount" placeholder="Enter bet amount">
+            <button onclick="addBet()">Add Bet</button>
+        </div>
+    </div>
+    <div id="userProfiles"></div>
+    <script src="app.js"></script>
+</body>
+</html>

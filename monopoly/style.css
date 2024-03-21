@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f8f9fa; /* Lighter background */
+    color: #212529; /* Text color */
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.input-container input[type="text"],
+.input-container input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #28a745; /* Green border */
+    border-radius: 6px;
+    margin-right: 10px;
+    transition: border-color 0.3s ease;
+    background-color: #fff; /* White background */
+    color: #212529; /* Text color */
+}
+
+.input-container input[type="text"]:focus,
+.input-container input[type="number"]:focus {
+    border-color: #218838; /* Darker green border on focus */
+    outline: none;
+}
+
+.input-container button {
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #28a745; /* Green button */
+    color: #fff; /* Text color */
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.input-container button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+.profile {
+    background-color: #fff; /* White background */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.profile .userInfo {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #28a745; /* Green text */
+}
+
+.profile input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #28a745; /* Green border */
+    border-radius: 6px;
+    margin-right: 10px;
+    transition: border-color 0.3s ease;
+    background-color: #fff; /* White background */
+    color: #212529; /* Text color */
+}
+
+.profile input[type="number"]:focus {
+    border-color: #218838; /* Darker green border on focus */
+    outline: none;
+}
+
+.profile button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #28a745; /* Green button */
+    color: #fff; /* Text color */
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.profile button:last-child {
+    margin-right: 0;
+}
+
+.profile button:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+
+#betAmountLabel {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#totalBetAmount {
+    font-size: 24px;
+}
