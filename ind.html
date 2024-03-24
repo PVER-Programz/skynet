@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Override Code</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        #override-container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        #override-input {
+            padding: 10px;
+            width: 250px;
+            font-size: 16px;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        #launch-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #launch-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="override-container">
+        <input type="text" id="override-input" placeholder="Override Code">
+        <button id="launch-button" onclick="checkCode()">Launch</button>
+    </div>
+
+    <script>
+        function checkCode() {
+            var userInput = document.getElementById("override-input").value;
+            if (userInput === '42069') {
+                window.location.href = "https://www.google.com";
+            } else {
+                alert("Incorrect code!");
+            }
+        }
+    </script>
+</body>
+</html>
