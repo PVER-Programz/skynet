@@ -1,12 +1,40 @@
 let userBalances = {};
 let totalBetAmount = 0;
+let commandHistory = []; // Array to store command history
+let historyIndex = -1; // Index to track current position in history
+
+// Function to handle keyup event in the command input
+document.getElementById('commandInput').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+        executeCommand(); // Execute command on Enter key press
+    } else if (event.key === 'ArrowUp') {
+        // Navigate up through command history
+        if (historyIndex < commandHistory.length - 1) {
+            historyIndex++;
+            document.getElementById('commandInput').value = commandHistory[historyIndex];
+        }
+    } else if (event.key === 'ArrowDown') {
+        // Navigate down through command history
+        if (historyIndex >= 0) {
+            historyIndex--;
+            if (historyIndex === -1) {
+                document.getElementById('commandInput').value = ''; // Clear input when at the end of history
+            } else {
+                document.getElementById('commandInput').value = commandHistory[historyIndex];
+            }
+        }
+    }
+});
 
 function executeCommand() {
     const input = document.getElementById('commandInput').value.trim();
     const parts = input.split(' ');
     const command = parts[0];
     const params = parts.slice(1);
-    
+    if (input !== '') {
+        commandHistory.unshift(input); // Add command to history
+        historyIndex = -1; // Reset history index
+    }
     switch (command) {
         case 'reset_bid':
             reset_bid(...params.map(param => parseInt(param)));
@@ -59,7 +87,7 @@ function addpoint(userno, amt) {
     if (userBalances.hasOwnProperty(`user${userno}`)) {
         userBalances[`user${userno}`] += amt;
     } else {
-        console.error(`User ${userno} does not exist. Cannot add balance.`);
+        alert(`User ${userno} does not exist. Cannot add balance.`);
     }
     updateProfiles();
 }
@@ -68,7 +96,7 @@ function subpoint(userno, amt) {
     if (userBalances.hasOwnProperty(`user${userno}`)) {
         userBalances[`user${userno}`] -= amt;
     } else {
-        console.error(`User ${userno} does not exist. Cannot subtract balance.`);
+        alert(`User ${userno} does not exist. Cannot subtract balance.`);
     }
     updateProfiles();
 }
@@ -79,7 +107,7 @@ function add(userno) {
         userBalances[`user${userno}`] += inputAmount;
         updateProfiles();
     } else {
-        console.error('Invalid input amount. Please enter a valid positive number.');
+        alert('Invalid input amount. Please enter a valid positive number.');
     }
 }
 
@@ -90,10 +118,10 @@ function sub(userno) {
             userBalances[`user${userno}`] -= inputAmount;
             updateProfiles();
         } else {
-            console.error('Insufficient balance. Cannot subtract more than available balance.');
+            alert('Insufficient balance. Cannot subtract more than available balance.');
         }
     } else {
-        console.error('Invalid input amount. Please enter a valid positive number.');
+        alert('Invalid input amount. Please enter a valid positive number.');
     }
 }
 
@@ -102,7 +130,7 @@ function setamt(userno, amt) {
     if (userBalances.hasOwnProperty(`user${userno}`)) {
         userBalances[`user${userno}`] = amt;
     } else {
-        console.error(`User ${userno} does not exist. Cannot set balance.`);
+        alert(`User ${userno} does not exist. Cannot set balance.`);
     }
     updateProfiles();
 }
@@ -110,7 +138,7 @@ function setamt(userno, amt) {
 function bet(amt) {
     const userCount = Object.keys(userBalances).length;
     for (let i = 1; i <= userCount; i++) {
-        sub(i, amt);
+        subpoint(i, amt);
     }
     totalBetAmount += amt * userCount;
     updateProfiles()
@@ -118,13 +146,15 @@ function bet(amt) {
 
 function betwon(userno) {
     if (userBalances.hasOwnProperty(`user${userno}`)) {
-        add(userno, checkbet());
-        totalBetAmount = 0;
+        const winnings = totalBetAmount; // Each user gets the total bet amount as winnings
+        addpoint(userno, winnings); // Add the winnings to the user's balance
+        totalBetAmount = 0; // Reset the total bet amount
     } else {
-        console.error(`User ${userno} does not exist. Cannot process bet won.`);
+        alert(`User ${userno} does not exist. Cannot process bet won.`);
     }
-    updateProfiles();
+    updateProfiles(); // Update user profiles after processing bet won
 }
+
 
 function checkall() {
     return userBalances;
@@ -156,7 +186,7 @@ function addBet() {
         bet(betAmount); // Call the bet function with the entered amount
         console.log(`Bet amount of ${betAmount} added successfully.`);
     } else {
-        console.error('Invalid bet amount. Please enter a valid positive number.');
+        alert('Invalid bet amount. Please enter a valid positive number.');
     }
 }
 
@@ -167,7 +197,7 @@ function updateProfiles() {
         profileHTML += `
             <div class="profile">
                 <div class="userInfo">User ${i}: ${userBalances[`user${i}`]}</div>
-                <button onclick="wonBet(${i})">Won Bet</button>
+                <button onclick="wonBet(${i})">Won Bid</button>
                 <input type="number" id="amountInput${i}" placeholder="Enter amount">
                 <button onclick="add(${i})">+</button>
                 <button onclick="sub(${i})">-</button>
@@ -188,12 +218,25 @@ document.getElementById('commandInput').addEventListener('keyup', function(event
 function wonBet(userno) {
     if (userBalances.hasOwnProperty(`user${userno}`)) {
         const winnings = checkbet();
-        add(userno, winnings);
+        addpoint(userno, winnings);
         totalBetAmount = 0;
     } else {
-        console.error(`User ${userno} does not exist. Cannot process bet won.`);
+        alert(`User ${userno} does not exist. Cannot process bet won.`);
     }
     updateProfiles();
 }
+
+// Get the execute button
+const executeButton = document.getElementById('executeButton');
+
+// Add event listener for right-click (contextmenu) event
+executeButton.addEventListener('contextmenu', function(event) {
+    // Prevent the default context menu from appearing
+    event.preventDefault();
+    
+    // Add the desired command to the command entry box
+    document.getElementById('commandInput').value = 'reset_bid 4 10000';
+});
+
 
 reset_bid(4, 10000); // Call to reset_bid with parameters 4 and 10000 on page load
