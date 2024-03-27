@@ -54,13 +54,9 @@ def refree():
         refPocket=refPocket + checkbal(x)
     refPocket = refPocket + ref.child("data").child("userbet").get()
     supposedValue = usrcnt * ref.child("data").child("initialmoney").get()
-    if supposedValue==refPocket:
+    if int(supposedValue)==int(refPocket):
         return True
     else:
         print(refPocket)
         print(supposedValue)
         return False
-
-bet(10)
-betwon(2)
-print(refree())
